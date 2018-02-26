@@ -156,6 +156,8 @@ while loop_flag:
     command = serial_read()
     reply = get_sense_hat_job(command)
     if reply != "unknown":
+        print("command: " + command)
+        print("replay: " + reply)
         serial_send(reply)
     time.sleep(0.1)
 
