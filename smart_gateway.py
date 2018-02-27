@@ -51,6 +51,7 @@ def on_message(client, userdata, msg):
             resInstruction = perform_single_instruction(instruction)
             resInstructions.append(resInstruction)
         res_payload = create_payload(payload.deviceId, payload.userId, resInstructions)
+        res_payload.messageId = payload.messageId + 1
         res_json = util.serialize_payload(res_payload)
         print("send: " + res_json)
         client.publish(publish_destination, res_json)
@@ -79,12 +80,12 @@ def perform_single_instruction(instruction):
         resValue = serial_read()
     print("serial receive: " + resValue)
 
-    resInstruction.type = instruction.RESULT_STRING
+    resInstruction.type = instruction.type
     if instruction.type == instruction.COMMAND_STRING:
         resInstruction.type = instruction.RESULT_STRING
         resInstruction.valueString = resValue
     if instruction.type == instruction.COMMAND_NUMBER:
-        resInstruction.type = instruction.RESULT_STRING
+        resInstruction.type = instruction.RESULT_NUMBER
         resInstruction.valueNumber = float(resValue)
 
     resInstruction.timestamp = util.current_timestamp()

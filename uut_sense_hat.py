@@ -154,8 +154,8 @@ def get_sense_hat_job(argument):
 
 while loop_flag:
     command = serial_read()
-    reply = get_sense_hat_job(command)
-    if reply != "unknown":
+    if command:
+        reply = get_sense_hat_job(command)
         print("command: " + command)
         print("replay: " + reply)
         serial_send(reply)
